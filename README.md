@@ -1,2 +1,2 @@
-### front-end-learning (本项目以文档笔记为主)
+## front-end-learning 前端学习(本项目以文档笔记为主)
 学习宗旨： 前端学习总结，活到老，学到老。
