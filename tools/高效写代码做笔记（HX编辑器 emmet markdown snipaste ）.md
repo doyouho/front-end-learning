@@ -1,0 +1,600 @@
+- HBuilder X 中 “折叠其他选区”，快捷键是【Alt+Shift+o】
+- 点标题前的-号可折叠该标题段落，快捷键是Alt+-（展开折叠是Alt+=）
+- 选中多行，并在行首添加一个光标，按快捷键Ctrl+Shift+\
+
+【快捷键是？/** + enter键】
+```javascript
+/**
+* 对两个操作数进行加法运算
+* @param {} a 第一个操作数
+* @param {} b 第二个操作数
+* @returns 返回两个操作数的和
+*/
+```
+
+[TOC]
+
+# 高效写代码做笔记（HX编辑器 emmet markdown snipaste）
+
+> 资源说明：
+>
+> Emmet官网文档
+> HX官网及文档
+> markdown文档
+>
+> >
+
+## 一、Emmet — HTML结构缩写 
+
+>没必要换新行写，只要这些代码后面不接空格就可以用tab键使其生效。
+
+### (0)预备操作
+
+- 值.log  ———— 能快速 console.log("值");【HX这里不生效】
+	* clog ———— 快速打印出 console.log();
+- html初始化
+	* !/html:5 ———— 快速搭建HTML主体框架
+	* html:xt：用于XHTML过渡文档类型
+	* html:4s：用于HTML4严格文档类型
+		​	 
+- 头部head初始化（里面的href值要按实际改哦）
+	* link:css 得到:
+```html
+	<link rel="stylesheet" href="style.css">
+```
+	* link:favicon 得到:
+
+ ```html
+ 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+ ```
+	* meta:vp  快速添加适合移动端的meta标签:
+```html
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+```
+
+
+
+- 注释部分
+	* 输入c  生成：```<!--  -->```
+	* 输入cc:ie6  生成：```<!--[if lte IE 6]> <![endif]-->```
+	* 输入cc:ie  生成：```<!--[if IE]> <![endif]-->```
+	* 输入cc:noie  生成：```<!--[if !IE]><!--><!--<![endif]-->```
+- Emmet规则：此为前端使用的操作，html，css， js 文件的操作中可以使用如下的操作方式
+
+
+
+### (1)总结
+
+1. .是class, 若是#则是id, >表父子关系，加号后面是儿子, +表兄弟,  ()进行分组, {}里面装文本, []里面装属性, ^表示向上爬一层;
+2.  :表表单的type属性，用在link，meta标签后表示描述？意义等？靠记忆。
+3.  $表示数字自增，一个$从1开始，两个$从01开始。
+4. 隐式简写：就是省略标签名，直接写类名或id名。（一般隐式的标签是div，但也会根据父级来取相同的标签)
+
+### (2)官网实例：
+
+> 链接资源：
+> 
+> [1.Emmet官网](https://emmet.io/) 
+> [2.Emmet常用的指令](https://docs.emmet.io/cheat-sheet/)
+> [3.文章：IDE操作及内含Emmet操作介绍](https://www.jianshu.com/p/2da9de7e2abe)
+> [4.Emmet官方文档](https://docs.emmet.io/abbreviations/syntax/)
+
+- div.box>span.face$*4+tab键 ———— 可以得到：（其中的）
+```html
+	<div class="box">
+		<span class="face1"></span>
+		<span class="face2"></span>
+		<span class="face3"></span>
+		<span class="face4"></span>
+	</div>
+```
+
+
+- (div.box>span.face$*4)*2 		加括号乘2就是两个上面的代码。
+- div.box>span.face$*4+i*3 		后面+i*3 表示div盒子里面多了3个i标签。
+- div.box>span.face$*4+(i.aaa>a)*3 		后面+(i.aaa>a)*3， 同上，只是每个i标签多了class名aaa，内部还多了a标签。
+- input:hidden#demoId.myClass 得到：
+```html
+	<input type="hidden" name="" id="demoId" class="myClass">
+```
+- td[title="Hello World!" colspan=3]  这是自定义属性，得到:
+```html
+	<td title="Hello World!" colspan="3"></td>
+```
+- p>{Click }+a{here}+{ to continue} 得到:
+```html
+ <p>Click <a href="">here</a> to continue</p>
+```
+- div+div>p>span+em^bq  	^表示向上爬一层，可用多个，这行代码可得到：
+```html
+	<div></div>
+	<div>
+		<p><span></span><em></em></p>
+		<blockquote></blockquote>
+	</div>
+```
+
+
+- ul>li.item$$*5    得到的class名从item01到item05。
+- ul>li.item$@-3*5  得到的class名从item7到item3。@决定了以3开头，-决定了是倒序。
+- ul>li.item$@-*5   得到的class名从item5到item1。@决定了以什么开头，没写默认是1，-决定了是倒序。（若是没有写@则当成itemn之后加符号-）
+- ul>li.item$@3*5   得到的class名从item3到item7。@决定了以3开头。
+- ul#nav>li.item$*4>a{Item $}
+```html
+	<ul id="nav">
+		<li class="item1"><a href="">Item 1</a></li>
+		<li class="item2"><a href="">Item 2</a></li>
+		<li class="item3"><a href="">Item 3</a></li>
+		<li class="item4"><a href="">Item 4</a></li>
+	</ul>
+```
+
+
+其他使用例子：
+- hr br audio video style script link a b img button input form section label select
+	* str ->  ```<strong></strong>```
+	* hdr ->  ```<header></header>```
+	* ftr ->  ```<footer></footer>```
+	* btn ->  ```<button></button>```
+	* opt ->  ```<option value=""></option>```
+	* tarea -> ```<textarea name="" id="" cols="30" rows="10"></textarea>```
+>冒号和属性一起用
+	* a:link     ->    ```<a href="http://"></a>```
+	* form:post  ->    ```<form action="" method="post"></form>```
+	* input:t    ```<input type="text" name="" id="">```
+- 省略写：em、ul、table这样的标签里面对应的标签都是固定的，这样里面的标签可以省略掉。
+	* em>span.class  写成 **em>.class**
+	* ul>li.nav  写成  **ul>.nav**
+	* table>tr.row>td.col 写成  **table>.row>.col**
+	* (有些还支持ul+ table+ tr+  select+的写法，HX编辑器不支持)
+	
+- 多个类名的书写：button.glide_arrow.glide_arrow_left得到下面：
+```html
+	<button class="glide_arrow glide_arrow_left"></button>
+```
+
+## 二、Emmet — CSS缩写
+
+>使用方法：
+>1. m->margin 
+>2. p->padding  
+>3. c->color 
+>4. bd->border 
+>5. fz->font-size 
+>6. bg->background
+>7. am->animation  
+>8. trf:rox->transform: rotateX(angle)  
+>9. trf:trx-> transform: translateX(x);
+
+- 简单用法：
+	* **m10-10--20** 得到  margin: 10px 10px -20px;
+	* **m10-10-20** 得到  margin: 10px 10px 20px;
+- 使用单位提供值：
+	* **pxm10**  得到   padding: 10px;
+	* **mm1.5**  得到   margin: 1.5em;
+- 值别名  p→%   e→em   x→ex  r->rem
+	* **w100p**  得到  width: 100%;
+	* **m10p30e5x**  得到  margin: 10% 30em 5ex;
+- 颜色值 ：
+	* **c#3**  得到   color: #333;
+	* **bd5#0s** 得到 border: 5px #000 solid;
+	
+- 无单位值：
+	* **lh2**   得到  line-height: 2;  
+	* **fw400** 得到  font-weight: 400;
+- ！：重要的修饰符 
+	* **p!+m10e!** 得到： padding:!important;  margin: 10em !important;
+	
+- 手动加前缀（wmso）：w:webkit   m:moz   s:ms   o:o
+（使用原则：多个值用-隔开）
+
+- 使用例子：
+	* **bg#3** 得到 background: #333;
+	* **bc#3** 得到 background-color: #333;
+	* **bi** 得到 background-image: url();
+	* **tfrox** 得到  transform: rotateX(angle); 还有附带前缀的-o- -ms- -moz- -webkit-
+	* **tftrx** 得到  transform: translateX(x); 还有附带前缀的-o- -ms- -moz- -webkit-
+	* **m10-auto** 得到 margin: 10px auto;
+	* **w1000+h600** 得到 width: 1000px;height: 600px;
+	* **bd1-s-red** 得到  border: 1px solid red;
+	* **bd5#0s** 得到 border: 5px #000 solid;
+	* **ps**   得到  position: relative;
+	* **psa**  得到  position: absolute;
+	* **psf**  得到  position: fixed;
+	* **l10+t10** 得到  left: 10px;top: 10px;
+	* **ds** 得到  display: block;
+	* **dsib** 得到  display: inline-block;
+	* **ta**  得到  text-align: left;
+	* **tac** 得到  text-align: center;
+	* **ofh** 得到 overflow: hidden;
+* **bdrs10** 得到 ：
+	
+```css
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+```
+
+* **-w-bdrs10** 手动加前缀：
+	
+```css
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+```
+
+* **trfs** 得到：
+```css
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+```
+
+* **@f** 得到： [同理@k得到keyframes] 
+```css
+	@font-face {            
+		font-family:;
+		src:url();
+	} 
+
+	@keyframes identifier {
+		from {  }
+		to {  }
+	}
+```
+
+​						
+- 难以实现（梯度）：
+	* linear-gradient(left, #fc0 30%, red);
+	* lg(left, #fc0 30%, red)  
+	
+## 三、编辑器 HBuilder X（下面均用HX表示）需要用到的操作
+
+### 1. 免拖动选择:智能双击和Ctrl+=扩大选区【引号和标签是它的选择端点】
+
+> (1) 双击逗号两侧，是选择逗号前一段或后一段; 
+> 例如：background-image: linear-gradient(to right, #fc0 30%, red);
+
+> (2) 双击属性赋值等号=，选择Html属性;  例如：class="face"
+
+> (3) 双击#选择markdown标题段落 
+
+> (4) 双击语法定义符开头选择markdown图片、超链接、加粗、倾斜、代码等语法区
+
+### 2. 包围 Ctrl+] —— 外部添加标签包着，或者快速创建代码块区域 || 反包围Ctrl+Shift+]
+
+>【注意若是错加包围，不要ctrl+z撤销，用反包围】
+		可以在这个选区首尾加父标签，同时闪烁光标。
+		如果在js里，按下Ctrl+]不是包围tag，而是包围if、for等函数库，方便快速把一段代码放入if块中。
+
+### 3. 选中相同语法词及跳过某词
+
+> (1) Ctrl+e  匹配  
+
+> (2) Ctrl+Alt+e 批量选中所有相同词是 
+
+> (3) Ctrl+Shift+e 完全匹配 (若用的是搜狗输入法注意快捷键冲突)
+
+> (4) 选中的标签头部与对应的尾部同时修改用完全匹配
+
+### 4. 折叠：快捷键是alt+-和=  “折叠其他选区”，快捷键是【Alt+Shift+o】
+
+### 5. 转到定义：alt+左键单击
+
+> (1) 转到定义的快捷键是Alt+d，(鼠标操作是alt+左键单击)
+
+> (2) 转到定义到分栏，ctrl+alt+左键，可以把一个定义处的代码打开在另一侧，方便共同查看。
+
+### 6. 交换选区内容：Ctrl+Shift+x交互选区，即Ctrl+x的增强版
+
+> (1) 选区交换：选中的两部分区域
+
+> (2) 行交换： 光标放置到2行行首	
+
+### 7. Ctrl+k是格式化代码，那么Ctrl+Shift+k就是合并为一行
+
+> (1) 双击{内侧选中class；
+
+> (2) 按Ctrl+双击选中另一个class
+
+### 8. 按Ctrl+\在选区首尾加光标，变成多光标模式。————用在同时注释if段首尾
+
+>（1）双击if选中if代码块，
+
+>（2）按Ctrl+\在选区首尾加光标，变成多光标模式
+
+>（3）按Ctrl+/注释掉选区首尾行
+
+### 9. 撤销最后一个多选区或多光标
+
+> 选区选多了或选错了，不用担心要重头选，Ctrl+Shift+z不是撤销编辑内容，而是撤销最后一个选区。？？（测试出来并不起作用）
+> 
+>取代方案：选择用右键点击来取消选择。
+
+
+## 四、HX的入门使用
+
+### 1. 后续补充
+
+1. 语法提示库 可选择Vue, Bootstrap, jQuery等
+2. 语法帮助  光标放到某api处，按下F1，就可跳转到这个api的官方手册。目前支持vue、uni-app、5+等api 
+3. 右键的在项目管理器中定位  
+4. 多光标 ctrl+鼠标左键 就可增加一个光标，ctrl+鼠标右键 可取消一个光标或选区。
+5. 列选择 alt+鼠标拖选。或者用快捷键ctrl+alt+↑或↓
+6. 查找 ctrl+f字符  ctrl+p 页面，enter表示到下一个
+7. 项目导入 svn git
+> 以git为例：（git项目：需要安装git插件、以及TortoiseGit、并配置ssh秘钥）
+> 
+>[教 程--https://ask.dcloud.net.cn/article/35247](https://ask.dcloud.net.cn/article/35247)
+
+8. less和scss编译  一般是在文件名上右键--外部命令--sass编译……
+> 安装 less 或 sass 插件后，进入菜单【工具】【插件配置】【compile-less】,点击package.json文件，将onDidSaveExecution修改为true。注意修改后需要重启HBuilderX才能生效
+
+### 2. 之前总结：HBuilder X 的快捷使用
+
+- web浏览器的打开和关闭  alt+p
+- 焦点回到编辑器  alt+n
+- 显示文档结构图/迷你地图   alt+w  alt+o
+1. [界面使用 alt]  alt配合数字打开对应的标签卡
+> 非常好记：[对应着键盘]，前面两个字母 Q W ,右边两个字母O P 就分别代替 项目管理栏，文档结构图，迷你地图，web浏览器。  中间编辑器焦点就是 N.(还有第一行剩下的字母配合alt键都是打开上面的菜单栏。)
+
+2. [代码操作] 
+	|1	|2	|3	|
+	|--	|--	|--	|
+	|缩进tab	|向左缩进shift+tab	|	|
+	|关闭其他标签卡 ctrl+q	|关闭当前标签卡 ctrl+w 	|	|
+	|新建标签卡 ctrl+t 	| 恢复关闭的标签卡 ctrl+shift+t 	|	|
+	|代码重排 ctrl+k	|代码显示1行  ctrl+shift+k 	|	|
+	|行注释 ctrl+/	|块注释 ctrl+shift+/	|	|
+	|全部文件保存ctrl+alt+s 	|粘贴成新html ctrl+shift+v	|	|
+	|	|选中当前行或多行ctrl+l(去行首空白加shift键)	|	|
+	|选择括号内的 ctrl+[	|选择引号内的  ctrl+'	|扩大选区--按层次的哦 ctrl+=	|
+	|相邻相同词ctrl+e	|选择所有相同词 ctrl+alt+e	|	|
+	|复制当前行或选区 ctrl+c(剪切同理) 	|移动行直接 ctrl+up/down 	|	|
+|删除行 ctrl+d  | 删除词 ctrl+退格和删除键 |【删除该行前后部分 shift+退格和删除键】|
+	
+3. [代码书写]
+> - 函数包围 ctrl+]，例如输入function ，按下快捷键就会得到 function(){}；
+> 
+> - 加光标操作，与\有关。  选区头尾加ctrl+\   选区的每行行首加ctrl+shift+\  【光标的作用就是同时写多个相同的代码,但没有代码提示了，按住ctrl加上点击操作能定义多个光标】
+> 
+> - 自定义代码块 [这个应该是代码模板般的存在了，可以一试]
+
+4. [代码查找]
+	|功能	|快捷键	|
+	|--	|--	|
+	|查字符串（也能算出个数）| ctrl+shift+o	|
+	|查找字符串		|ctrl+f 	|
+	|查找文件	|ctrl+alt+f	|
+|查找当前文件索引符号（即html标签）|ctrl+p  |
+	|转到行	|ctrl+g|
+
+## 五、HX的外部命令--扩展功能【以后补充】
+
+> 使用场景：
+
+> 压缩文件与解压
+
+> 压缩图片
+
+> 文档转换（比如markdown转pdf）
+
+> 调用python、shell脚本
+
+> 打开本地的某个程序
+
+> 传输文件到服务器
+
+> 操作服务器的某些服务（如启动、停止、重启nginx)
+
+> 下载文件
+
+> 安装apk到手机
+
+> 上传应用到应用分发网站（比如蒲公英）
+
+> 批量压缩
+
+> 其它的自动化操作
+
+## 六、高级使用emmet——在已有的结构上添加代码【以后补充】
+
+## 七、snipaste的快捷使用
+
+>资料参考:
+	> [1.官网下载安装  ](https://zh.snipaste.com/)
+	> [2.文档](https://docs.snipaste.com/zh-cn/)（具体内容在软件安装后，右键软件图标的帮助里面有得看）
+
+> 说明：默认截屏快捷键是F1，贴图是F3，我分别改成了 ctrl+F1 和 F2（若不生效，有可能是快捷键冲突，特别注意把输入法的快捷键修改一下）
+
+### 1. 【截屏】 ctrl+F1 / 自定义截图（规定尺寸和延迟的）shift+F1 (截图后的自动框选-右键)
+
+更多操作：
+- 自动检测界面元素--不是很好用，按下 鼠标右键/tab 即可自动选中界面元素。
+- 鼠标右键单击--退出当前操作
+- 扩大或缩小选区1像素  ctrl/shift+上下左右箭头（纯箭头的话是移动）
+- 按住 鼠标左键 + W A S D（推荐，可实现移动、扩大、缩小区域）（看鼠标的标识决定移动还是缩放）
+- ` 或 !-- 显示/隐藏鼠标指针
+- ☆☆逗号 --切换到上一次截屏成功的记录；句号 --切换到下一次截屏成功的记录（包括内容哦）（英文）
+	
+### 2. 【贴图】  所谓**贴图**，是指将系统剪贴板中的内容转化成图片，然后作为窗口置顶显示
+
+- 操作1：截屏后按F2
+
+- 操作2：复制文本后按F2
+	得到的贴图（是预先自定义的字体,颜色,背景）
+	——还能逆操作（图文字转文本放在剪切板中 ctrl+shift+c）
+
+- 操作3：复制图像后按F2 就可以把图贴到桌面了，网络照片也可以（先右键复制图像）
+
+### 3. 【贴图变形-鼠标操作】放大缩小：滑轮； 透明度：ctrl+滑轮；快速缩略图：shift+左键双击；  恢复原状：点击鼠标中键。
+
+### 4. 【贴图旋转-1234】1为逆时针 2为顺时针 3为左右切换 4为上下切换（这里的上下左右相对原图而言）
+
+### 5. 【贴图移动】shift+拖动是对齐，可对齐贴图窗口到其他贴图或其他程序窗口
+
+### 6. 【贴图显隐及分组】关闭单个贴图：左键双击； shift+F2隐藏或显示所有贴图； ctrl+F2切换另一组贴图
+
+### 7. 【贴图锁定与否】锁定：ctrl+T切换。需要设置“鼠标穿透开关”为ctrl+T.
+
+### 8. 【贴图的关闭和恢复】双击左键关闭，按多次贴图F2可恢复。
+
+
+
+## 八、markdown语法帮助
+
+### 0.资源说明
+> 下面的快捷操作大部分是配合HX编辑器一起使用才有效的，笔记的原参照是 **HX编辑器帮助菜单下的Markdown语法帮助文档**。例如：可按Alt+滚轮横向滚动。  
+> 其他资源：
+>>[菜鸟教程](https://www.runoob.com/markdown/md-tutorial.html)  
+>>[官网翻译文档](https://markdown-zh.readthedocs.io/en/latest/)
+
+### 1. Alt+w  文档结构图的快捷键（查看目录）
+
+
+
+### 2. 标题语法用#， 分为6级 ——— 直接输入 或 h3+tab
+
+- 标题使用技巧：
+	1. Emmet快速输入：敲h2+Tab即可生成二级标题【同HTML里的emmet写法，不止标题，HX里所有可对应tag的markdown语法均支持emmet写法】。仅行首生效
+	2. 智能双击：双击#号可选中整个标题段落
+	3. 智能回车：行尾回车或行中Ctrl+Enter强制换行后会自动在下一行补#。而连续2次回车后将自动补的#去掉。(体验同word)
+	4. 回车后再次按Tab可递进一层标题，再按Tab切换列表符
+	5. 在# 后回车，可上插一个空标题行【同word】，或任意位置按Ctrl+Shift+Enter也可以上插空标题行
+	6. 折叠：
+		- 点标题前的-号可折叠该标题段落，快捷键是Alt+-（展开折叠是Alt+=）
+		- 多层折叠时折叠或展开子节点，快捷键是Alt+Shift+-或=
+		- 全文全部折叠或展开，快捷键是Ctrl+Alt+Shift+-或=
+		- 折叠其他区域，快捷键是Alt+Shift+o。这对长文档管理非常有用，可以专注于当前章节
+
+### 3. 代码 ———直接输入：配合ctrl+]  或者 输入code字母+tab键(行首才生效)
+
+```javascript
+	// 支持智能双击，下面有说明
+	var b = "baby";
+	var a = "me";
+	console.log("在md中在真正代码首行的开头双击会选择到全部代码哦");
+	console.log("在行尾双击选中的是该行代码。");
+```
+```html
+<h1>你好啊</h1>
+```
+
+### 4. 注释 ctrl+/
+
+<!-- 你是真爱 --> 全选该注释，只需要在注释符号上双击就可以。
+
+### 5. 其他 时间、日期:day+tab键 time+tab键
+
+> 2020-05-20 (day)
+> 
+> 2020-05-20 17:12:49 (time)
+
+### 6. 编辑器快捷操作复习
+
+> 选中文字按 F3，查找下一个，Shift+F3找上一个
+> 
+> 选中2个选区后，按Ctrl+Shift+X，可互换选区内容。如无选区，只是2个光标，则互换2行
+
+### 7. 分割线 hr+tab
+--------------------------------------------------
+> 三个减号或者星星可以分别做出细和粗的分割线，如下：
+---
+***
+### 8. 表格 table3*3+tab
+
+| 01   | 02   | 03   |
+| ---- | ---- | ---- |
+| emmet语法 | Ctrl+K可以自动整理表格格式 | 支持外部复制的表格 |
+
+- Emmet：table3*3后敲Tab，表示生成3行3列的表格，行首生效
+- md表格对齐是传统md的痛点，按下Ctrl+K可以自动整理表格格式（暂未兼容不同缩放模式和字体的情况）
+- 支持从excel、wps、word、number的表格中复制粘贴表格进来（不支持合并单元格和单元格换行）
+
+### 9. 列表
+
+> markdown的列表支持有序列表、无序列表以及特殊的任务列表。
+
+#### 有序列表 Ctrl+Alt+1 (1.2.3.这样写)
+
+1. 有序列表1 【设置或取消有序列表符的快捷键：Ctrl+Alt+1，可选中多行批量设置序号；支持多光标批量设置列表符，即按Ctrl+鼠标左键添加多光标】
+2. 有序列表2 【列表后回车会自动补序号】
+4. 有序列表3 【智能双击：双击前面的数字，可重新对数字排序，修正序号错误，并选中有序列表段落（左边的4是故意写错让你体验的）】
+
+#### 无序列表 Ctrl+Alt+-（减号 星号 加号，可以tab键切换）
+
+- 开始第一级
+	- 不不不第二级
+		- 反反复复第三级
+- 无序列表有3种前缀，HX里分别用于表示1级列表、2级列表、3级列表。
+- 无序列表1 【快捷键：Ctrl+Alt+-；智能双击：双击-号可选中整段无序列表；再次按Tab会更换二级列表符】
+* 无序列表2	
+	* Emmet：li后敲Tab可生成*号列表符，行首生效
+	* 快捷键：Ctrl+Alt+8【8即*对应的数字】，支持多光标批量设置列表符，即按Ctrl+鼠标左键添加多光标
+	* 智能双击：双击*号可选中整段无序列表
+	* 智能回车：行尾回车或行中Ctrl+Enter强制换行后会自动续列表；连续按回车会清除列表符；再次按Tab会更换列表符；在列表符后回车或行尾Shift+回车，上一行留出列表符
+	* *号常用于二级列表，列表符后继续Tab，可切换列表符
++ 无序列表3 【快捷键：Ctrl+Alt+=；常用于三级列表；其他同上】
+
+#### 任务列表 Ctrl+Alt+[/],除HB编辑器 其他需要加前缀 - 
+
+- [ ] 任务列表-未完成任务 【快捷键：Ctrl+Alt+[】
+- [ ] 任务列表-已完成任务 【快捷键：Ctrl+Alt+]】
+[ ] 你有问题
+[x] 
+	1. 智能双击：双击方括号内可切换勾选状态，把任务标记为完成或未完成；双击方括号右侧可选中任务列表段落
+	2. 智能回车：回车后自动补任务列表前缀符号；连续按回车清除前缀符号；在列表符后回车或行尾Shift+回车，上一行留出列表符
+- [ ] 如需发布到web渲染，需增加无序列表- 的前缀
+
+#### 以上三种列表，均支持批量修改列表符，有如下方式建议依次学习尝试
+
+> 1. 选中多行，按快捷键Ctrl+Alt+“1”或“-”或“[”或“]”，批量设置列表符
+> 2. 如果需要跳行设置有序或无序列表，通过Ctrl+鼠标左键点中目标多行（可不连续），产生多光标，然后按快捷键Ctrl+Alt+“1”或“-”或“[”或“]”，可跳行设置列表符，尤其是有序列表，数字也会跳行加1
+> 3. 按Alt+鼠标选中行首那列（列选择），这样每行行首都有光标，然后再键入或删除列表符即可批量操作
+> 4. 选中多行，按快捷键Ctrl+Shift+\（其实就是Ctrl+|），可以在每行行首添加一个光标
+
+### 10. 引用列表 > Ctrl+Alt+Shift+.
+
+> 引用1
+> 引用2
+- 快捷键：Ctrl+Alt+Shift+.
+- 智能双击：双击>号可选中整段引用列表
+- 智能回车：行尾回车或行中Ctrl+Enter强制换行后会自动续列表；连续按回车会清除列表符；在列表符后回车或行尾Shift+回车，上一行留出列表符
+
+### 11. 文字样式(*_单个是倾斜，双个加粗，~~删除线~~)
+
+> ```**加粗**``` 【快捷键：Ctrl+B，支持多光标；Emmet：b后敲Tab】
+> 
+> ```__加粗2__```
+
+> ```_倾斜_```【Emmet：i后敲Tab；前后包围：选中文字按Ctrl+\是在选区两侧添加光标，可以继续输入_】
+> 
+> ```*倾斜*```
+
+> ```~~删除线~~```
+
+> ``` 单行代码 ```
+- 包围插入：先选中文字内容，然后按_*~`等符号，会自动在2侧加包围
+- 智能双击：双击语法区前面的定义符号，选中包含定义符的整段文字
+- 去包围：选中整段文字后，按Ctrl+Shift+]，可去除2侧包围符号
+- HX还支持以下对2侧文本高效处理的手段：
+	1. 选中文字按Ctrl+\是在选区两侧添加光标，可以继续输入~~，会在2侧同时输入
+	2. 向2侧扩大选择：【Win:Alt+Shit+→ 、Mac:Ctrl++Shit+→】；由2侧向内减少选择：【Win:Alt+Shit+← 、Mac:Ctrl++Shit+←】
+
+[链接文字](http://dcloud.io)
+1. Emmet：a后敲Tab
+2. 打开链接：Alt+鼠标单击；如果是本地文件，可通过Shift+Alt+单击，在另一分栏打开文件
+3. 智能粘贴：粘贴URL会自动变成超链接格式；粘贴本地文件进来也会自动创建引用链接
+4. 智能双击：双击语法区开头，即[左侧，选中包含定义符的整段文字
+
+![图片描述文字](logo.jpg)
+1. Emmet：img后敲Tab
+2. 智能粘贴：粘贴剪切板里的图形时会自动保存为本md文档的附件；删除文档中的图片语法，保存md文档时会自动删除对应的图片附件；粘贴图片文件时自动变成链接引用格式；
+3. 悬浮预览：鼠标移到图片语法上，本地图片会自动显示出来
+4. 智能双击：双击语法区开头，即!左侧，选中包含定义符的整段文字
+
+### 12. 小总结 结合emmet使用markdown
+
+> b加粗 i倾斜 a链接 img图片 h1标题 hr分割线 li黑点 table3*3表格
+
+> code代码 day日期 time时间  
