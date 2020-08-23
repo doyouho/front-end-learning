@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>事件书写的四种方式</title>
+   
+  </head>
+  <body>
+    <script>
+      // 这是页面加载时加载的，因为页面按顺序加载的，所以并不推荐写在上面（因为会影响页面显示速度），推荐写在最后，这里只是为了做演示。
+      function click2(){
+        console.log('你点击了2');
+      }
+      function click22(node,num){
+        // 若在这里直接用this，那么this指向的是window，要想绑定this指向该元素，需要在HTML上传入this参数。
+        console.log('传入this对应得到的是该节点', node); // 获得该节点
+        console.log('获得参数num的值',num);
+        console.log("获得自定义属性data-name的值为", node.getAttribute("data-name"));
+      }
+
+    </script>
+    <p>操作DOM有三步：选中对象，绑定对象与函数，实现函数。</p>
+    
+    <p>方式一：三者一体，适合小量代码和逻辑</p>
+    <p>点击1：onclick="console.log('你点击了1,并将其改成data-name的值');console.log('访问event和this',event,this); this.innerText=this.getAttribute('data-name');" data-name="a"</p>
+    <button type="button" onclick="console.log('你点击了1,并将其改成data-name的值');console.log('访问this',this); this.innerText=this.getAttribute('data-name');" data-name="a">点击1</button>
+
+    
+    <p>方式二：2+1，必须同时加载（但位置可不定），函数绑定时得加括号</p>
+    <p>点击2：onclick="click2()"</p>
+    <p>点击22：onclick="click22(this,99)" data-name="b" </p>
+    <p>注意：这里this的绑定是必要的，这样才能访问该节点。</p>
+    <button type="button" onclick="click2()">点击2</button>
+    <button type="button" onclick="click22(this,99)" data-name="b">点击22--传入this对应该节点,传入99对应num</button> 
+
+    <p>注意：</p>
+    
+    <p>方式三：1+2，推荐页面加载后加载（元素上无法直接看出添加了操作）--减少页面首次渲染时间</p>
+    <p>点击3： id="btn3"</p>
+    <p>点击33： id="btn33"， btn33.onclick = function(){}</p>
+    <button type="button" id="btn3">点击3</button>
+    <button type="button" id="btn33" data-name="c">点击33,获取其他值可通过自定义属性实现</button>
+    
+    
+    <p>方式四：1+1+1，完全分离，推荐页面加载后加载（元素上无法直接看出添加了操作）--减少页面首次渲染时间</p>
+    <p>点击4：btn4.onclick = click4; // 函数内部不需要使用this, 注意此处不加括号</p>
+    <p>点击44：btn44.onclick = click44(25); // 若添加括号，click44函数需要返回一个函数形成闭包，否则会自执行。（不需要传入this）</p>
+    <p>点击444：btn444.onclick = function(){click444(this,26)}; // 函数内部需要this，那么可在外面套一个函数，把this传入。
+        }</p>
+    <button type="button" class="btn4">点击4</button>
+    <button type="button" class="btn44" data-name="d">点击44--含参</button>
+    <button type="button" class="btn444">点击444--含参</button>
+    <script>
+      window.onload = function() { // 这会在页面加载之后加载
+      
+        // a.选择对象
+        var btn3 = document.getElementById("btn3");
+        var btn33 = document.getElementById("btn33");
+        var btn4 = document.getElementsByClassName("btn4")[0];
+        var btn44 = document.getElementsByClassName("btn44")[0];
+        var btn444 = document.getElementsByClassName("btn444")[0];
+        
+        // 1-b.绑定函数并实现函数()
+        btn3.onclick = function() {
+          console.log('你点击了3');
+        }
+        
+        btn33.onclick = function(e) {
+          console.log('你点击了33，this得到的是该节点', this); // 获得该节点
+          console.log('获取自定义属性data-name的值为',this.getAttribute("data-name"));
+          console.log(e);
+        }
+
+        // 2-b.绑定函数
+        btn4.onclick = click4; // 注意此处不加括号
+        btn44.onclick = click44(25); // 若添加括号，加参数，对应函数需要返回一个函数形成闭包，否则会自执行。注意，如果在此处传入this，这里的this指向的是全局window，若想使用该节点可采用下面的方式。
+        btn444.onclick = function(){
+           click444(this,26);
+        } 
+        
+        
+        // 2-c.实现函数
+        function click4() {
+          console.log('你点击了4');
+        }
+        function click44(num) {
+          return function(){
+            console.log(this); // 这种闭包形式的函数，函数调用时不需要绑定this，原例 btn44.onclick = click44(25); 
+            console.log('你点击了44，该节点是',this);
+            console.log('获得参数num的值',num);
+          }
+        }
+        function click444(node,num) {
+          console.log('你点击了444，该节点是',node);
+          console.log('获得参数num的值',num);
+          
+        }
+      }
+    </script>
+
+  </body>
+</html>

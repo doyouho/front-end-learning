@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>属性节点的增删改查</title>
+	</head>
+	<body>
+    <p>属性节点</p>
+    <div class="box box2">box2</div>
+    <script>
+      var obj2 = document.getElementsByClassName("box2")[0];
+      // (1) 增加与修改 -- 注意是默认属性还是自定义属性
+      // obj2.id = "box2"; 
+      // obj2["data-name"] = "box2-1"; // 区别一：点操作对自定义属性不会生效
+      obj2.setAttribute("id","box2");
+      obj2.setAttribute("data-name","name2");
+      // (2) 查找或访问
+      console.log(obj2.id,obj2["data-name"]);  // 点操作对自定义属性不会生效，所以得到 box2 undefined
+      console.log(obj2.className,obj2.getAttribute("class")); // 区别二：点操作访问class属性用className，方法则照原本的使用。
+      console.log(obj2.getAttribute("id"),obj2.getAttribute("data-name"));
+      console.log(obj2.attributes);
+      console.log(obj2.hasAttribute("data-name"));
+      // (3) 删除
+      obj2.id = ""; // 区别三：点操作只能设值为空字符串，不能删除该属性
+      obj2.removeAttribute("data-name"); // 而用方法可以删除
+      
+      // (4)class属性操作
+      var classList = obj2.classList;
+      console.log(classList[0]); // 可用索引访问
+      classList.add("boxx"); // 增加一个值
+      classList.remove("box"); // 删除一个值
+      classList.replace("boxx","bbb"); // 修改一个值
+      classList.toggle("bbbox");// 若存在则删除该值，若不存在则添加该值
+      // classList.toggle("bbbox"，false); // toggle()方法还有一个可选布尔值参数，值为false表示强制删除
+      console.log(classList.contains("bbb")); // 查找是否有这样的一个值
+      console.log(classList.value); // 获得所有的类名的字符串
+      
+      
+      // 本质上有点像Set集合，但是方法名稍有不同
+    </script>
+	</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>元素节点的增删改查</title>
+	</head>
+	<body>
+    <div class="box">
+      <ul class="list">
+        <li class="item">li<a href="">1</a></li>
+        <li class="item">li<a href="">2</a></li>
+        <li class="item">li<a href="">3</a></li>
+        <li class="item">li<a href="">4</a></li>
+      </ul>
+      <button type="button" onclick="removeFirst()">删除第一项</button>
+      <button type="button" onclick="removeOne()">删除内容为1的项</button>
+      <button type="button" onclick="cloneLast()">克隆最后一项并插入</button>
+    </div>
+    <script type="text/javascript">
+      var odiv = document.getElementsByClassName("box")[0];
+      var oul = document.getElementsByClassName("list")[0];
+      var oli = document.getElementsByClassName("item")[0];
+      
+      // 节点.children属性 会变
+      var oliChildren = oul.children; // 所有元素节点
+      // 注意 节点children属性的值是按实际变化的。
+      var oliChildren2 = oul.childNodes; // 所有子节点
+      console.log(oliChildren,oliChildren2); // 4个节点
+      
+      // 创建节点ooli 添加内容和类名
+      var ooli = document.createElement("li"); // 创建新节点ooli
+      ooli.classList.add("item"); // 给新节点添加类名
+      ooli.innerText = "xinzeng"; // 给新节点添加文本内容
+      
+      // 克隆节点ooli,得到oooli节点
+      var oooli = ooli.cloneNode(true); // oooli是克隆ooli的，参数true表示包括克隆ooli的子节点。
+      
+      // 插入节点 同一个元素在同一个执行段中是不能插入两次，所以下面是分别插入节点ooli和oooli。
+      oul.appendChild(ooli); // 插入节点 -- 默认末尾添加
+      oul.insertBefore(oooli,oli); //  插入节点 -- 在位置节点oli的前面添加
+      
+      // 查看
+      console.log(oliChildren); // 更新了，6个节点
+      console.log(oliChildren2.item(2)); // item(n)属性只能用在Nodelist数组上。
+      console.log(oooli.parentNode, oooli.parentElement); // 两者大多数情况下通用，效果一样，因为父节点只能是元素节点
+      console.log(oul.id, oul.length, oul.style, oul.title);
+      console.log(oul.tagName, oul.nodeName, oul.nodeType);// 得到 UL UL 1
+      
+      
+      function removeFirst(){
+        // oul.removeChild(oli); // 注意不能这样做，这里删除的是原本的第一个
+        // oul.removeChild(oliChildren[0]); // 方法一 因为children是即时更新的，这里用这个更合适。
+        oul.removeChild(oul.firstElementChild); // 方法二 
+      }
+      function removeOne(){
+        // 节点删除
+        oli.remove();
+        
+      }
+      function cloneLast(){
+        // var lastOne = oliChildren[oliChildren.length-1]; // 方法一
+        var lastOne = oul.lastElementChild; // 方法二
+        // var newone = lastOne.cloneNode(); // 没加true参数表示不克隆子节点,包括不克隆标签内的文本内容哦
+        var newone = lastOne.cloneNode(true); 
+         oul.appendChild(newone);
+      }
+    </script>
+	</body>
+</html>

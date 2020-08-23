@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>获取样式及兼容</title>
+    <style>
+      .box{
+        height: 200px;
+        color:rgba(22,33,44,0.6);
+      }
+      .box1{
+        height:300px;
+        color:orange;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="ddd.css"/>
+    <style>
+      .box2{
+        height: 300px;
+        text-align: center;
+        line-height: 300px;
+        color: transparent;
+        width:900px;
+        background-color: rgba(255, 255, 0, 0.5);
+      }
+      .box4{
+        height:100px;
+        color:orange;
+      }
+      .out{
+        background-color: #000000;
+      }
+    </style>
+	</head>
+	<body>
+    <div class="box" style="width:1200px;background-color: #344556; font-size: 36px;" >测试盒子0</div>
+    <div class="box1" style="width:900px;background-color: yellow;" >测试盒子1</div>
+   <div class="out">
+      <div class="box2" >测试盒子2</div>
+   </div>
+    
+    
+    <script> 
+      window.onload = function () {
+        
+        console.time();
+        
+        var oDiv = document.getElementsByClassName("box")[0];
+        var oDiv1 = document.getElementsByClassName("box1")[0];
+        
+        
+        // 1.获取行内样式
+        console.log(oDiv.style.backgroundColor); // 原设的值为#344556，得到rgb(52, 69, 86)
+        console.log(oDiv.style["background-color"]); // 不用驼峰写法也可，上面这样写也行，还是得到rgb(52, 69, 86) 
+        
+        
+        // 原因是oDiv.style得到的是一个对象CSSStyleDeclaration,它遵守对象属性的用法 。
+        console.log(oDiv.style);
+        console.log(oDiv.style.cssText);// 查看具体写的行内样式
+        oDiv.style.removeProperty("font-size");// 移除属性font-size
+        oDiv1.style.setProperty("color","orange");// 新建或修改单个css属性
+        console.log(oDiv.style.getPropertyValue("background-color"));
+        console.log(oDiv1.style.getPropertyValue("background-color"));
+        // CSSStyleDeclaration对象的方法	描述
+        // getPropertyPriority()	返回指定的 CSS 属性是否设置了 "important!" 属性。
+        // getPropertyValue()	返回指定的 CSS 属性值。
+        // item()	通过索引方式返回 CSS 声明中的 CSS 属性名。
+        // removeProperty()	移除 CSS 声明中的 CSS 属性。
+        // setProperty()	在 CSS 声明块中新建或者修改 CSS 属性。
+        
+        
+        // 2.获取内联样式或外联样式，根据第几个来查--鸡肋，需要知道选择器和样式
+        var s = document.styleSheets[0].rules[0].style; // 上面意思是第1个style链表(内联外联都行，看是第几个)中第2个CSSStyleRule对象，
+        // console.log(document.styleSheets);
+        var ruleObj = s.parentRule; // 让ruleObj多了选择器
+        console.log(s.cssText);// 只样式
+        console.log(ruleObj.cssText);// 选择器+样式
+        
+        
+        
+        // 3.获取当前有效样式
+        function getStyle(element,attr){
+          return element.currentStyle ? element.currentStyle[attr] : getComputedStyle(element)[attr];
+        }
+        console.log(getStyle(oDiv,'color')); //  原设的值为white，得到rgb(255, 255, 255)
+        // getComputedStyle(element)[attr] --- 适用于火狐、谷歌、Safari 
+        // element.currentStyle[attr]  --- 适用于IE 
+      }
+       console.timeEnd();
+      
+      // 思考问题：获得的颜色值都是rgb/rgba格式的（除了行内样式中的white,yellow会得到本身），怎么转换成16进制颜色
+      // 注意问题：css上可以用-写法写样式属性，但script中需要注意，要么驼峰写法 oDiv.style.backgroundColor，要么写完整 oDiv.style["background-color"]。
+      // 参考网址 https://www.runoob.com/jsref/obj-cssstyledeclaration.html
+      // 扩展：镂空文字怎么实现
+      // CSS书写优美的文字样式（透明、模糊、镂空、渐变、图片背景文字）
+      
+    </script>
+	</body>
+</html>
